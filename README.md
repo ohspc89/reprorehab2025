@@ -1,6 +1,6 @@
 # reprorehab2025: Beginner MATLAB/Python Pod
 
 ## Pod Summary
-![demographics](images/ReproRehabPod.png)
+![ReproRehab Pod demographics](images/ReproRehabPod.png)
 
 
