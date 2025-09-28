@@ -6,10 +6,19 @@ Created on Sun Aug 24 00:42:28 2025
 @author: jinseok
 """
 
+ans= 42
+print(ans)
 # %% Task 1. Read 'week1.json' and save its content to a variable: 'data'
 
 import urllib.request   # This is package to read files using URL
-import ...              # You need to import one more library
+import matplotlib.pyplot as plt              # You need to import one more library
+
+xs=range(10)
+ys=[x**2 for x in xs]
+
+plt.plot(xs,ys)
+
+
 json_url = "https://raw.githubusercontent.com/ohspc89/reprorehab2025/students/contents/week1/week1.json"
 # Complete '...' below.
 # Here, instead of `json.load()` method introduced in the discussion,
