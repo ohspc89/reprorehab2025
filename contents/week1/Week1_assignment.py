@@ -7,7 +7,7 @@ Created on Sun Aug 24 00:42:28 2025
 """
 
 ans= 42 #int
-
+#changes
 # %% Task 1. Read 'week1.json' and save its content to a variable: 'data'
 
 import urllib.request   # This is package to read files using URL
