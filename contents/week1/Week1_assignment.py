@@ -110,4 +110,4 @@ mean_values = [means[day] for day in means]
 import matplotlib.pyplot as plt
 plt.plot(x_days, mean_values)       # provide X and Y
 plt.xlabel("Day")     # provide x-axis label
-plt.ylabel("Hours of Sleep")     # provide y-axis label
+plt.ylabel("Hours of Sleep")     # provide y-axis label 
