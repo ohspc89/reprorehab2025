@@ -46,13 +46,20 @@ len(data)
 #do this?
 
  
-data['sub1']
+data['sub1'].keys() #The .keys() function shows the key names of the dataset. 
 #day1, day2, day3
+
+# can also do:
+data.get('sub1')
+
 
 # %% Task 4. What were the measures of each day?
 # hint: all three days were the same regarding measures
 
 data['sub1']['day1']
+
+data_list = list(data.keys()) #this creates a list of the data keys, just a plain 1D list
+
 
 #hour_slept, coffee_intake and mean_cortisol_levels
 
@@ -88,6 +95,10 @@ import numpy as np
 
 means = {'day1_mean': np.mean(sleep_hours['day1']), 'day2_mean': np.mean(sleep_hours['day2']), 'day3_mean': np.mean(sleep_hours['day3'])}
 stds = {'day1_std': np.std(sleep_hours['day1']), 'day2_std': np.std(sleep_hours['day2']), 'day3_std': np.std(sleep_hours['day3'])}
+
+#means = [np.mean(val) for _, val in sleep_hours.items()] #This is a cleaner way to do it using list logic. 
+#stds1 = [np.std(val) for _, val in sleep_hours.items()]
+
 
 
 # %% Task 7. Plot daily sleep hour means using 'means' sequence prepared in Task 6.
