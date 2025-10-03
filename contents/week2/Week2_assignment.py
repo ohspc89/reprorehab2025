@@ -11,6 +11,8 @@ Original file is located at
 import pandas as pd
 
 # Read data using an url
+import urllib.request   # This is package to read files using URL
+
 
 # source: Hongn, Bosch, Prado, and Bonomini (2025).
 # Wearable Device Dataset from Induced Stress and Structured Exercise Sessions
@@ -18,6 +20,8 @@ import pandas as pd
 # %% Read dataset
 url = "https://physionet.org/files/wearable-device-dataset/1.0.1/Wearable_Dataset/AEROBIC/S08/ACC.csv?download"
 
+urllib.request.urlopen(url) 
+    
 # Read the csv file using the url
 data = pd.read_csv(url)
 
@@ -26,10 +30,12 @@ data = pd.read_csv(url)
 #         How many rows and columns are there? What's the data type of each column?
 #         What are the names of the columns? Do you see why the names are such?
 
+data.head()
+data.info()
+
 
 # %%
 # Task 2. Print the names of the columns.
-
 
 # %%
 # Task 3. Please change the column names to 'ACC_X', 'ACC_Y', and 'ACC_Z'.
