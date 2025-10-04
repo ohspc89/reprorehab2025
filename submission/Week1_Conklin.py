@@ -65,7 +65,10 @@ day3_value = [
 
 # Task 5b: Now make 'sleep_hours'
 
-sleep_hours = [day1_value, day2_value, day3_value]
+sleep_hours = {'day1': [day1_value],
+     'day2': [day2_value],
+     'day3': [day3_value]
+    }
 
 
 # %% Task 6. Calculate the mean and the standard deviation of hours slept
@@ -73,9 +76,11 @@ sleep_hours = [day1_value, day2_value, day3_value]
 # Make two variables ('means' and 'stds') using list comprehensions.
 # hint: import numpy and use `numpy.mean()` and `numpy.std()`
 
-import numpy
-means = [numpy.mean(day) for day in sleep_hours]
-stds = [numpy.std(day) for day in sleep_hours]
+import numpy as np
+means = [np.mean(hours) for hours in sleep_hours.values()]
+stds = [np.std(hours) for hours in sleep_hours.values()]
+
+
 
 
 # %% Task 7. Plot daily sleep hour means using 'means' sequence prepared in Task 6.
