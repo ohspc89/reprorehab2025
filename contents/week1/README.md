@@ -4,7 +4,7 @@
 
 - [Assignment](Week1_assignment.py)
 
-- [Extra_material](https://colab.research.google.com/drive/1nxesF9PkmnbFwuOQcohb9YdagcX5g6mD?usp=sharing)
+- [Extra_assignment](https://colab.research.google.com/drive/1nxesF9PkmnbFwuOQcohb9YdagcX5g6mD?usp=sharing)
 
 - [Notes on dict](https://colab.research.google.com/drive/1AQ053sch5dCvHLrOWPmMD0YpH8tqyYNz?usp=sharing)
 
