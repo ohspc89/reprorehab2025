@@ -31,36 +31,80 @@ data = pd.read_csv(url)
 #         What are the names of the columns? Do you see why the names are such?
 
 data.head()
+
+# Column Names: 2013-02-25 18:00:59, 2013-02-25 18:00:59.1,2013-02-25 18:00:59.2
+
 data.info()
 
+
+#3 columns, 64951 rows, data types are floats
 
 # %%
 # Task 2. Print the names of the columns.
 
+print(data.columns)
 # %%
+
+
 # Task 3. Please change the column names to 'ACC_X', 'ACC_Y', and 'ACC_Z'.
 #         (Hint. Use `data.rename(...)` - check out the slides!)
 #         Don't forget to add `inplace=True`
-data.rename(...)
 
+#data.rename(columns={'2013-02-25 18:00:59': 'ACC_X', '2013-02-25 18:00:59.1':'ACC_Y', '2013-02-25 18:00:59.2':'ACC_Z'}, inplace = True)
+#data.head()
+
+#data.rename(columns={x:y for x, y in zip(data.columns, ['2013-02-25 18:00:59', '2013-02-25 18:00:59.1','2013-02-25 18:00:59.2'])}, inplace = True)
+
+data.rename(columns={x:y for x, y in zip(data.columns, ['ACC_X', 'ACC_Y','ACC_Z'])}, inplace = True)
 
 # %%
-# Task 4. Please display the first 10 rows and 3 columns using `.iloc[]`
+# Task 4. Please display the first 10 rows and 3 columns using `.iloc[]` .iloc[rowstart:rowend, colstart:colend]
 
+data.iloc[0:10, 0:3]
 
 # %%
 # Task 5. Please display the values of 'ACC_X' and 'ACC_Y' where 'ACC_X' is greater than 30
 #         (Hint. Use `data.loc[]`)
-...
 
+        
+data.loc[data['ACC_X'] >30,'ACC_X':'ACC_Y'] 
+
+data.loc[data["ACC_X"] > 30, ['ACC_X', 'ACC_Y']]
+
+# .loc organizes the data based on a boolean data.loc[boolean delimiter for the rows, columns from one:next]
+data['ACC_X']>30
+
+#expects first thing to be row 
+#loc is a method to get subset of the dataframe. Return values of x and Y 
 # %%
 # Task 6. Run `data.describe()`.
 
+data.describe()
 
 # %%
 # Task 7. Get the mean, std, min, and max of each colum using different methods.
 #         (Hint. `data.mean()`)
-...
+meanX= data['ACC_X'].mean()
+meanY= data['ACC_Y'].mean()
+meanZ= data['ACC_Z'].mean()
+
+stdX = data['ACC_X'].std()
+stdY = data['ACC_Y'].std()
+stdZ = data['ACC_Z'].std()
+
+minX= data['ACC_X'].min()
+minY= data['ACC_Y'].min()
+minZ= data['ACC_Z'].min()
+
+stdX = data['ACC_X'].max()
+stdY = data['ACC_Y'].max()
+stdZ = data['ACC_Z'].max()
+
+data.mean()
+data.std()
+data.min()
+data.max()
+data.median()
 
 # Extra - read slightly more complicated file and plot data
 
@@ -76,7 +120,9 @@ mocap_tsv = 'https://physionet.org/files/music-motion-2012/1.0/mocap_data/nmB.ts
 # %%
 # Task E1. How many rows would you skip?
 # (Hint. Distinguish metadata from data!)
-nskip = ...
+
+nskip = 10 #there are 11 lines of metadata that are 0-indexed, so skipping 10 
+#from 0-10 skips 11 lines
 
 # %%
 # Task E2. Read dataset using `nskip` you defined earlier
@@ -84,7 +130,7 @@ nskip = ...
 # `sep` argument.
 
 # This is little large, so it may take some time to read.
-mocap = pd.read_csv(..., sep=..., skiprows=..., engine='c')
+mocap = pd.read_csv(mocap_tsv, sep='\t', skiprows= nskip, engine='c')
 
 # Here I summarized metadata. This may help you determine the answer for Task E1.
 metadata = {'n_frames': 35601,
@@ -102,21 +148,25 @@ metadata = {'n_frames': 35601,
 # %%
 # Task E3. Let's take a subset of this data by taking the first 100 rows.
 # Use `.iloc[]` to get the first 100 rows and save it to a variable, 'subset'
-subset = ...
+subset = mocap.iloc[0:100]
 
+mocap.iloc[0:100, :] #both lines of code give the same thing, the latter just indexes the columns "[rowstart:rowend, :]" gives you all columns
 # The first value of the returned tuple should be 100.
 # If not, change the slice above.
 subset.shape
 
 # %%
 # Task E4. Let's draw line plots using columns: 's2 X' & 's3 X'
-subset.plot.line(...)
+subset.plot.line(x='s2 X', y= 's3 X')
 
 # %%
 # Task E5. Draw a scatterplot of 'static Y' vs. 'static Z' column
 # Increase `s` from 10 to a 20. What does change?
-subset.plot.scatter(x=..., y=..., edgecolor='C0', color='None', s=10)
+subset.plot.scatter(x='static Y', y='static Z', edgecolor='C0', color='None', s=10)
+
+subset.plot.scatter(x='static Y', y='static Z', edgecolor='C0', color='None', s=20)
+# s= changes the size of the dots on the scatterplot
 
 # %%
 # Task E6. Plot a histogram of 's3 Y' column
-subset.plot.hist(column=..., facecolor='None', edgecolor='k')
+subset.plot.hist(column= 's3 Y', facecolor='None', edgecolor='k')
