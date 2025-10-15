@@ -1,10 +1,14 @@
 # reprorehab2025: Beginner MATLAB/Python Pod
 
+Learners are expected to review weekly material & assignment before the weekly pod meeting. Extra assignments/notebooks are optional.
+
 ## Week 1 - Getting Started with Python
 - Install and open **Spyder** (alternative: Google Colab for backup)
 - Write and run simple lines of code
 - Data types: numbers, strings, lists, dictionaries
-- Quick warm-up: define a subject with metadata and retrieve values
+- Explore list / dict comprehension
+- *Extra assignment*: explore regular expression (`regex`)
+- *Extra notebook*: on `dict`
   
 **Outcome**: everyone can run code and see output
 
@@ -16,6 +20,7 @@
 - Explore data: `.head()`, `.info()`, `.describe()`
 - Access rows and columns (`loc`, `iloc`, indexing)
 - Simple visualization using DataFrame
+- *Extra assignment*: Timestamps in Pandas
   
 **Outcome**: learners can open real tabular data and navigate it
 
@@ -24,9 +29,10 @@
 ## Week 3 - Tabular Data with Pandas II (Intermediate)
 - Filtering rows with conditions
 - Sorting data
-- Merging and joining DataFrames
+- Merging, concatenatig, & reshaping DataFrames
+- *Extra notebook*: Handling missing values in Pandas
   
-**Outcome**: learners can reshape and summarize datasets
+**Outcome**: learners can wrangle datasets
 
 ---
 
@@ -35,6 +41,7 @@
 - Labeling axes, titles, legends
 - Customizing style (colors, markers)
 - Saving figures to file
+- *Extra_assignment*: exploring how to work with Seaborn package
   
 **Outcome**: learners can visualize trends in their dataset
 
