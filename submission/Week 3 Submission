@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 14 10:23:32 2025
+
+@author: blay6
+"""
+
+import pandas as pd
+
+# Data reading prep - run this block!
+github_url = 'https://raw.githubusercontent.com/ohspc89/reprorehab2025/students/contents/week3'
+suffix = '.csv'
+# Do you recognize `.join()` and a list comprehension?
+fnames = ['/'.join((github_url, f'sub{str(x+1).zfill(2)}'+suffix)) for x in range(4)]
+# Give column names
+column_names = ['Measure_A', 'Measure_B']
+
+# Save all dataframes in a list
+dfs = []
+# Loop over file names
+for fname in fnames:
+  # `.append()` is a method that attaches an input at the end of a list
+  dfs.append(pd.read_csv(fname, header=None, names=column_names))
+  
+  # %%
+  # Complete this block
+for i, df in enumerate(dfs):
+  df['id'] = [f'sub{i+1}'] * 3     # if i is 0, this should be repeated accounts of 'sub1'
+  df['time'] = pd.Categorical(['pre', 'test', 'post'], categories=['pre', 'test', 'post'], ordered=True)  # pd.Categorical(...)
+  df = df.iloc[:, [2, 3, 0, 1]]
+  dfs[i] = df
+  
+# %%
+with_id = pd.concat(dfs, ignore_index=True)
+
+# %%
+# Use `pd.DataFrame.melt()` to prepare a long format
+#   id_vars : scalar, tuple, list, or ndarray, optional
+#       Column(s) to use as identifier variables.
+#   value_vars : scalar, tuple, list, or ndarray, optional
+#       Column(s) to unpivot. If not specified, uses all columns that
+#       are not set as id_vars.
+#   var_name : scalar, default None
+#       Name to use for the 'variable' column. If None it uses
+#       frame.columns.name or 'variable'.
+#   value_name : scalar, default 'value'
+#       Name to use for the 'value' column, can't be an existing column label.
+long_form = with_id.melt(id_vars=['id', 'time'],
+                         value_vars=['Measure_A', 'Measure_B'])
+
+# %%
+# Use `pandas.DataFrame.pivot()`
+wide_form = long_form.pivot(index='id', columns=['time', 'variable'], values='value')
+
+# Copying from the learning materials - run it please!
+wide_form.columns = ['-'.join((x[1], x[0])) for x in wide_form.columns]
+# If you skip this command, 'id' will stay as index.
+wide_form = wide_form.reset_index()
+
+# %%
+back_to_long = wide_form.melt(id_vars='id')
+# Use `.sort_values(by='id')` to sort by the column: id
+# Use `.reset_index(drop=True)` to reset the row numbers
+back_to_long = back_to_long.sort_values(by='id').reset_index(drop=True)
+
+# %%
+# Complete the code
+back_to_long[['variable', 'time']] = back_to_long['variable'].str.split('_', expand=True)
+
+# %%
+# Complete the code
+back_to_long['time'] = pd.Categorical(back_to_long['time'], categories=['pre', 'test', 'post'], ordered=True)
+
+# %%
+back_to_long.sort_values(by='id').reset_index(drop=True).iloc[:, [0, 3, 1, 2]]
+
+# %% Complete the code needed all 3, that makes sense
+back_to_long.sort_values(by=['variable', 'id', 'time']).reset_index(drop=True).iloc[:, [0, 3, 1, 2]]
+
+# %%
+wide_form.loc[:, wide_form.columns.str.endswith('pre')]
+
+# %%
+
+wide_form.loc[wide_form['id'].str.match('sub1'), wide_form.columns.str.startswith('Measure_A')]
+
+# %%
+# 9a. Filter out rows whose 'time' is 'pre' and whose 'variable' ends with 'B'.
+# Use `.str.match()` and `.str.endswith()`.
+
+long_form.loc[long_form['time'].str.match('pre') & long_form.variable.str.endswith('B')]
+
+# %%
+long_form.loc[long_form.value < 4.0, :]
+
