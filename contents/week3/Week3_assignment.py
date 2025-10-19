@@ -32,19 +32,18 @@ for fname in fnames:
 - 'id' column of the second dataframe (`dfs[1]`) will have 'sub2' as its value. Similar will be true for the third and the fourth dataframe in `dfs`.
 - 'time' column will have three values: 'pre', 'test', 'post'. You will make it as a categorical variable (hint. `pandas.Categorical()`). The levels will be **pre -> test -> post**.
 """
-
 # %% Complete this block
 for i, df in enumerate(dfs):
-  df['id'] = ...    # if i is 0, this should be repeated accounts of 'sub1'
-  df['time'] = ...
-  df = df.iloc[:, [2, 3, 0, 1]]
-  dfs[i] = df
+  df['id'] =  'sub'+str(i+1).zfill(2)  # if i is 0, this should be repeated accounts of 'sub1'
+  df['time'] = ['pre','test', 'post']
+  df = df.iloc[:, [2, 3, 0, 1]] #shuffles columns
+  dfs[i] = df #updates dfs list with the new ones
 
 """**Task 2**. Then you will concatenate the elements of `dfs` using `pandas.concat()`."""
 
 # %% Complete this code block
-with_id = pd.concat(..., ignore_index=True)
-
+with_id = pd.concat(dfs, axis=0, ignore_index=True)
+with_id
 """**Task 3**. Use `pandas.DataFrame.melt()` to prepare a *long* dataframe. Just set `id_vars` and `value_vars` and leave the rest to default options."""
 
 # %%
@@ -59,13 +58,16 @@ with_id = pd.concat(..., ignore_index=True)
 #       frame.columns.name or 'variable'.
 #   value_name : scalar, default 'value'
 #       Name to use for the 'value' column, can't be an existing column label.
-long_form = with_id.melt(id_vars=...,
-                         value_vars=...)
+long_form = with_id.melt(id_vars= ['id','time'] , 
+                         value_vars=['Measure_A', 'Measure_B'])
+
+#the ID variables are what get carried over; the value variables are what get's manipulated (moved around)
 
 """**Task 4**. Use `pandas.DataFrame.pivot()` to prepare a *wide* dataframe."""
 
 # %% Use `pandas.DataFrame.pivot()`
-wide_form = long_form.pivot(...)
+wide_form = long_form.pivot(index=['id'], columns = ['time','variable'], values='value')
+print(wide_form)
 
 # %% Copying from the learning materials - run it please!
 wide_form.columns = ['-'.join((x[1], x[0])) for x in wide_form.columns]
@@ -80,15 +82,27 @@ back_to_long = wide_form.melt(id_vars='id')
 # Use `.reset_index(drop=True)` to reset the row numbers
 back_to_long = back_to_long.sort_values(by='id').reset_index(drop=True)
 
-"""**Task 5**. Modify one column and make a new column in **back_to_long**: **variable** and **time**. Use `.str.split()` to split strings of **variable** column and use `expand=True` to populate new columns."""
+"""**Task 5**. Modify one column and make a new column in **back_to_long**: 
+ #**variable** and **time**. Use `.str.split()` to split strings of **variable** 
+ #column and use `expand=True` to populate new columns."""
 
 # %% Complete the code
-back_to_long[['variable', 'time']] = ...
+
+#I did this iteratively to figure out what was going on...
+x=back_to_long['variable'].str.split('_')
+y=back_to_long['variable'].str.split('-')
+z=back_to_long['variable'].str.split('-', expand = True)
+
+back_to_long[['variable','time']]= back_to_long['variable'].str.split('-', expand = True)
+
+#to the R side of the = sign it 
 
 """**Task 6**. Make **time** column a categorical one. Set the level identical to what's described in task 1."""
 
 # %% Complete the code
-back_to_long['time'] = pd.Categorical(...)
+timeorder=['pre', 'test', 'post']
+
+back_to_long['time'] = pd.Categorical(back_to_long['time'], categories=timeorder, ordered=True)
 
 """**Task 7**. Let's sort values so that you will get a dataframe like this:
 ```
@@ -109,9 +123,11 @@ back_to_long['time'] = pd.Categorical(...)
 
 You only need to provide the value for `by` in `.sort_values()`.
 """
+back_to_long.sort_values(by=['variable', 'id', 'time'])
 
 # %% Complete the code
-back_to_long.sort_values(by=...).reset_index(drop=True).iloc[:, [0, 3, 1, 2]]
+back_to_long.sort_values(by=['variable','id','time']).reset_index(drop=True).iloc[:, [0, 3, 1, 2]]
+
 
 """Task 8. Using **wide_form**, complete the following tasks"""
 
@@ -127,7 +143,8 @@ back_to_long.sort_values(by=...).reset_index(drop=True).iloc[:, [0, 3, 1, 2]]
 #           6.2 |           2.7 |
 #           4.4 |           5.5 |
 # ------------------------------+
-wide_form.loc[...]
+wide_form.loc[:,wide_form.columns.str.endswith('pre')]
+
 
 # %%
 # 8b. Check "Measure_A' values of 'sub1' at all time points. Use `.str.startswith()`.
@@ -137,7 +154,7 @@ wide_form.loc[...]
 # Measure_A-pre | Measure_A-test | Measure_A-post |
 # --------------+----------------+----------------|
 #           3.2 |            7.8 |            5.1 |
-wide_form.loc[...]
+wide_form.loc[0:0,wide_form.columns.str.startswith('Measure_A')]
 
 """Task 9. Using **back_to_long**, complete the following tasks."""
 
@@ -155,8 +172,8 @@ wide_form.loc[...]
 #   sub4 | pre  | Measure_B | 5.5   |
 # ----------------------------------+
 
-long_form.loc[...]
+long_form.loc[long_form.time.str.match('pre') & long_form.variable.str.endswith('B'),:]
 
 # %%
 # 9b. Take rows whose 'value' is less than 4.0
-long_form.loc[...]
+long_form.loc[long_form.value < 4.0]
