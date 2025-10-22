@@ -8,7 +8,7 @@ After reviewing this week's material, you will be able to:
 - Work with **multiple axes** and secondary y-axes
 - Save figures as publication-ready images (`.png`)
 
-## 🧩 Slies: [Plotting with Matplotlib](https://docs.google.com/presentation/d/1gCuRdFPZw8U3_ApNtlI7Mag5Pg2kXMU_EXZ8_er7isI/edit?usp=sharing)
+## 🧩 Slies: [Plotting with Matplotlib](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week4/Plotting%20with%20Matplotlib.pdf)
 These slides walk through:
 - Setting up Spyder to view interactive plots (Qt backend)
 - Anatomy of a Matplotlib figure (`Figure`, `Axes`)
@@ -16,7 +16,7 @@ These slides walk through:
 - Examples of line, scatter, and histogram plots
 - Layout customization with **GridSpec**
 
-## 📘 Main Notebook: [Plotting with Matplotlib](https://colab.research.google.com/drive/12_CTyfE46C1apkWy8l_0joWgNGkrFJUr?usp=sharing)
+## 📘 Main Notebook: [Plotting with Matplotlib](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week4/plotting_with_matplotlib.py)
 This notebook introduces the foundation of Matplotlib plotting through practical examples using real world datasets (PysioNet gait and RR interval data).
 
 ### Topics Covered
@@ -32,13 +32,13 @@ This notebook introduces the foundation of Matplotlib plotting through practical
 - Mix multiple visualization types (`lineplot`, `hexbin`, etc.)
 - Practice organizing visual information effectively 
 
-## 🧮 Assignment: [week4_assignment](https://colab.research.google.com/drive/13LFsR_O-Qln-IKpPEW14PSrKpv1Yc_II?usp=sharing)
+## 🧮 Assignment: [Week4_Assignment](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week4/Week4_assignment.py)
 
 - Task 1: Timeseries with moving average & normalization
 - Task 2: Scatterplot & Histogram
 - Task 3: Custom Layout (GridSpec)
 
-## 🧭 Extra: [Seaborn](https://colab.research.google.com/drive/1yzgobOyJnRanKoinXQj6qQzOT8sRXeS2?usp=sharing)
+## 🧭 Extra: [Seaborn: Statistical Data Visualization](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week4/visualization_seaborn.py)
 This script introduces **Seaborn**, a high-level interface built on top of Matplotlib.
 
 ### Topics Covered
