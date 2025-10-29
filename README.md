@@ -18,7 +18,7 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 
 ---
 
-## Week 2 - Tabular Data with Pandas I (Basics)
+## Week 2 - Tabular Data with Pandas I (Basics) [(video)](https://drive.google.com/file/d/1-nWBPvSfb8lkDVZOIiYlpGz3vc3qwE3w/view?usp=sharing)
 - What is a **DataFrame** and why it matters
 - Load data from CSV / TSV
 - Explore data: `.head()`, `.info()`, `.describe()`
@@ -30,7 +30,7 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 
 ---
 
-## Week 3 - Tabular Data with Pandas II (Intermediate)
+## Week 3 - Tabular Data with Pandas II (Intermediate) [(video)](https://drive.google.com/file/d/1furlBaWV6VZUZaZ5TeKJLxzm5ltUCN4S/view?usp=sharing)
 - Filtering rows with conditions
 - Sorting data
 - Merging, concatenatig, & reshaping DataFrames
@@ -40,7 +40,7 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 
 ---
 
-## Week 4 - TA demo
+## Week 4 - TA demo [(video)](https://drive.google.com/file/d/19JizHOPlXXu0tZ8K53iuCPd5nyHtNeID/view?usp=sharing)
 - One TA will demonstrate her programming workflow
 
 **Outcome**: Learners will recognize that programming is rarely a linear process, but rather an iterative effort that often involves trial, error, and plenty of Googling.
