@@ -1,6 +1,6 @@
 # reprorehab2025: Beginner MATLAB/Python Pod
 
-Learners are expected to review the weekly materials and assignments before each pod meeting. Extra assignments and notebooks are optional. This structure is designed to test a flipped-classroom model. A recording of each weekly pod meeting will be shared afterward (see the link provided in that week's README). The answer key for the weekly assignment will be uploaded to the `/submission` folder on Fridays around 5 p.m. PT.
+Learners are expected to review the weekly materials and assignments before each pod meeting. Extra assignments and notebooks are optional. This structure is designed to test a flipped-classroom model. A recording of each weekly pod meeting will be shared afterward (You need to use the account you used to apply for ReproRehab). The answer key for the weekly assignment will be uploaded to the `/submission` folder on Fridays around 5 p.m. PT.
 
 Learners focusing on MATLAB - please visit this [repository](https://github.com/ohspc89/ReproRehab2023_POD1_Playground).
 
@@ -47,7 +47,7 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 
 ---
 
-## Week 5 (previously Week 4) - Plotting with Matplotlib
+## Week 5 (previously Week 4) - Plotting with Matplotlib [(video)](https://drive.google.com/file/d/19n9z2OoCCK46f_QNpyEXU2GsgwCowiDr/view?usp=sharing)
 - Plot types: line, scatter, bar, histogram
 - Labeling axes, titles, legends
 - Customizing style (colors, markers)
