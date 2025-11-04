@@ -19,7 +19,7 @@ By the end of this week, you should be able to:
 ## 📂 Files in this Folder
 | File | Description |
 |------|--------------|
-| [`Week6_notebook.html`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week6/Week6_notebook.html) | Main notebook for the week. Walkthrough with explanations. |
+| [`Week6_notebook.pdf`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week6/Week6_notebook.pdf) | Main notebook for the week. Walkthrough with explanations. |
 | [`Week6.py`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week6/Week6.py) | Script you can use to run codes in the main notebook. |
 | [`Week6_assignment.py`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week6/Week6_assignment.py) | Weekly assignment — practice tasks on control flow and functions. Submit this one. |
 | [`Week6_extra_notebook.pdf`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week6/Week6_extra_notebook.pdf) | Weekly extra notebook - see how a complex excel file is read and plotted. |
