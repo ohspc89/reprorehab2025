@@ -1,82 +1,51 @@
-# Week 6 — Control Flow & Functions
-> (Originally Week 5 — schedule shifted after the special Week 4 session.)
+# Week 5: Plotting in Python (Matplotlib & Seaborn)
 
----
+After reviewing this week's material, you will be able to:
+- Create and customize figures using **Matplotlib** & **Seaborn**
+- Control **figure layouts** using `subplots()` and `GridSpec`
+- Add **legends**, **titles**, and **annotations**
+- Draw **scatterplots**, **histograms**, and **2D histograms**
+- Work with **multiple axes** and secondary y-axes
+- Save figures as publication-ready images (`.png`)
 
-## 🧭 Learning Objectives
-By the end of this week, you should be able to:
+## 🧩 Slies: [Plotting with Matplotlib](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/Plotting%20with%20Matplotlib.pdf)
+These slides walk through:
+- Setting up Spyder to view interactive plots (Qt backend)
+- Anatomy of a Matplotlib figure (`Figure`, `Axes`)
+- How to use `plt.subplots()` for multiple plots
+- Examples of line, scatter, and histogram plots
+- Layout customization with **GridSpec**
 
-- Write conditional statements using `if`, `elif`, and `else`
-- Use `for` and `while` loops to repeat code efficiently
-- Control loop behavior with `break` and `continue`
-- Iterate cleanly with `enumerate()` and `zip()`
-- Build your own functions with parameters, type hints, and return values
-- Return **multiple values** from a function and unpack them
-- Recognize when to switch from loops → comprehensions → NumPy vectorization
+## 📘 Main Notebook: [Plotting with Matplotlib](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/plotting_with_matplotlib.py)
+This notebook introduces the foundation of Matplotlib plotting through practical examples using real world datasets (PysioNet gait and RR interval data).
 
----
+### Topics Covered
+- Create figures using `plt.subplots()`
+- Customize titles, axis labels, and spines
+- Add vertical/horizontal lines and annotations (`ax.axvline`, `ax.text`)
+- Adjust axis limits with `ax.set_xlim()` and `ax.set_ylim()`
+- Draw multiple histograms in one figure (`2 x 4` layout)
+- Compare histogram styles
+- Add titles, labels, and legends for each subplot
+- Learn to use `fig.suptitle()` and `plt.tight_layout()`
+- Combine plots of different shapes and sizes (e.g., 2:1 top ratio, full-width bottom)
+- Mix multiple visualization types (`lineplot`, `hexbin`, etc.)
+- Practice organizing visual information effectively 
 
-## 📂 Files in this Folder
-| File | Description |
-|------|--------------|
-| [`Week5.py`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/Week5.py) | Main notebook/script for the week. Walkthrough with explanations and mini-tasks. |
-| [`Week5_assignment.py`](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/Week5_assignment.py) | Weekly assignment — practice tasks on control flow and functions. Submit this one. |
+## 🧮 Assignment: [Week5_Assignment](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/Week5_assignment.py)
 
----
+- Task 1: Timeseries with moving average & normalization
+- Task 2: Scatterplot & Histogram
+- Task 3: Custom Layout (GridSpec)
 
-## 🧠 Overview
-This week we bring structure and logic to your code.
+## 🧭 Extra: [Seaborn: Statistical Data Visualization](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week5/visualization_seaborn.py)
+This script introduces **Seaborn**, a high-level interface built on top of Matplotlib.
 
-Most programs combine three pillars:
-1. **Decisions** — choosing *what* to do (`if / elif / else`, `match / case`)
-2. **Repetition** — doing it *again* (`for`, `while`)
-3. **Reuse** — packaging it for later (functions)
-
-You’ll also meet some professional habits:
-- add type hints (`str | None`)
-- protect loops from infinite runs
-- use vectorized NumPy operations for speed (`%timeit`)
-
----
-
-## 🧩 Topics Covered
-1. Conditional statements (`if`, `elif`, `else`, `match case`)
-2. Boolean logic and truthiness (`0`, `''`, `[]`, etc.)
-3. Loops:
-   - `for` loops over lists, ranges, and dataframes
-   - `while` loops with safe guards
-   - `break` and `continue`
-4. Pythonic iteration:
-   - `enumerate(start=1)` instead of manual counters
-   - `zip()` with tuple-unpacking
-5. Functions:
-   - parameters and defaults
-   - docstrings and type hints
-   - returning multiple values
-6. Quick peek at vectorization and performance (`%timeit`)
-
----
-
-## 🧪 Practice & Assignment
-- **Read/Run:** `week6.py` (top to bottom) — observe each example, modify a line or two, see what changes.
-- **Complete:** `week6_assignment.py`
-
-### Assignment Tasks (Overview)
-1. **BMI calculator** — handle invalid inputs gracefully
-2. **Odd numbers and labels** — filtering and list comprehension
-3. **`enumerate` & `zip`** — paired iteration
-4. **`break` and `continue`** — loop control
-5. **`while` loop and divisibility** — find first number divisible by 7 and 9
-6. **Multiple returns** — function returning both max and min word length
-7. *(Optional)* `map` + `lambda` vs comprehension — which reads clearer to you?
-
----
-
-## 💡 Hints & Tips
-- If you see something like `str | None`, you need **Python 3.10+**.
-  On older versions, replace with `Optional[str]`.
-- Guard your `while True` loops with a counter (`max_iter`) to avoid freezing the notebook.
-- You can unpack multiple return values:
-  ```python
-  mean_val, range_val = get_stats(values)
-
+### Topics Covered
+- Plotting EEG data from PhysioNet
+- Cleaning column names using `.strip()`
+- Visualizing timestamp intervals using `sns.histplot`, `sns.kdeplot`, and `sns.ecdfplot`
+- Formatting axis tick labels using `ticker.FuncFormatter`
+- Working with time zones (`Europe/Rome`) and datetime formatting
+- Comparing **long** vs. **wide** data formats for plotting
+- Creating multi-panel figures using **FacetGrid**
