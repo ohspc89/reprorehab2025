@@ -60,7 +60,7 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 
 ---
 
-## Week 6 (previously Week 5) - Control Flow & Functions
+## Week 6 (previously Week 5) - Control Flow & Functions [(video)](https://drive.google.com/file/d/1Fpl7ILqZ3gGHXWCpdcuzZz7KFmHd9Oxx/view?usp=sharing)
 - Conditional statements (`if/elif/else`, `match/case`)
 - Loops (`for`, `while`)
 - Defining functions
