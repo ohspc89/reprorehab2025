@@ -33,7 +33,7 @@ def bmi_category(height, weight):
     BMI=(weight/(height/100))**2 # TODO: implement
     if (BMI<18.5):
         print('underweight')
-    elif (BMI<25 and BMI>18.5):
+    elif (BMI<25 and BMI>=18.5):
         print('normal')
     else:
         print('overweight')
@@ -134,11 +134,8 @@ Then you can use `max` to return the longest word length.
 # Your code for Task 6
 def word_stats(words):
     total = len(words)
-    lengths = list(map(len, words))
-    longest = max(lengths)
-    print(f"Total words: {total}")
-    print(f"Length of the longest word: {longest}")
-
+    longest = max(map(len, words))
+    return total, longest
 print(word_stats(["hi","hello","data"]))
 
 """## (Optional) Task 7 — Functional Style
