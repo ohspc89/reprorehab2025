@@ -33,7 +33,7 @@ A visual walkthrough of Spyder's debugger (this is *linked from inside* the main
 
 ## 🧮 No Assignment this week
 
-## 🧭 Extra: [How to pickle your workspace](https://github.com/ohspc89/reprorehab2025/blob/students.contents/week7/Week7_extra.pdf)
+## 🧭 Extra: [How to pickle your workspace](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week7/Week7_extra.pdf)
 
 This notebook introduces **Pickle**, a package that serializes and de-serializes Python objects.
 
