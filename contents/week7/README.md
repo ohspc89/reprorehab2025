@@ -33,6 +33,15 @@ A visual walkthrough of Spyder's debugger (this is *linked from inside* the main
 
 ## 🧮 No Assignment this week
 
+## 🧭 Extra: [How to pickle your workspace](https://github.com/ohspc89/reprorehab2025/blob/students.contents/week7/Week7_extra.pdf)
+
+This notebook introduces **Pickle**, a package that serializes and de-serializes Python objects.
+
+### Topics Covered
+- How to pickle a single variable
+- How to pickle entire workspace
+- Concepts discussed in the main notebook are used (e.g., `try/except`, `assert`)
+
 ## ✨ Take-Home Message
 - Read tracebacks **bottom-up**
 - Catch specific exceptions when possible
