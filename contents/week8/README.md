@@ -2,7 +2,7 @@
 
 This week we invite our learners to introduce how is everyone applying the knowledge gained during bootcamp weeks to their data cleaning / visualizing tasks.
 
-## 🧭 Extra: [Making a notebook using Spyder](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week8/spyder-notebook.pdf)
+## 🧭 Extra: [Making a notebook using Spyder](https://github.com/ohspc89/reprorehab2025/blob/students/contents/week8/Spyder-notebook.pdf)
 
 By following this setup guide, you will be able to:
 
