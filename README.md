@@ -54,8 +54,6 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 - Saving figures to file
 - *Extra_assignment*: exploring how to work with Seaborn package
 
-ℹ️ Two breakout rooms during the pod meeting: a) Review of materials from Weeks 1-3; b) Discussion of new material
-
 **Outcome**: learners can visualize trends in their dataset
 
 ---
@@ -64,20 +62,18 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 - Conditional statements (`if/elif/else`, `match/case`)
 - Loops (`for`, `while`)
 - Defining functions
+- *Extra_notebook*: A demo on reading, manipulating, and visualizing data from a motion capture system.
 
-ℹ️ Two breakout rooms during the pod meeting: a) Review of materials from Week 5; b) Discussion of new material
-  
 **Outcome**: Learners can write reusable code for small tasks.
 
 ---
 
-## Week 7 (previously Week 6) - Error Handling & Debugging
+## Week 7 (previously Week 6) - Error Handling & Debugging [(video)](https://drive.google.com/file/d/1dNibPQRzo9cyMnphv1eDqYLRQibumRwd/view?usp=sharing)
 - Common error types: `ValueError`, `TypeError`, etc.
 - Using `try/except` blocks
 - Debugging in Spyder (breakpoints, variable explorer)
+- *Extra_notebook*: using `pickle` to save your workspace 
 
-ℹ️ Two breakout rooms during the pod meeting: a) Review of materials from Week 6; b) Discussing of new material
-  
 **Outcome**: Learners are less scared of error messages and know how to inspect issues.
 
 ---
@@ -86,5 +82,6 @@ Learners focusing on MATLAB - please visit this [repository](https://github.com/
 - Learners will select their own datasets and apply the skills covered in previous weeks.
 - Each learner will present a short data analysis notebook.
 - Wrap-up: project ideas and learning paths beyond bootcamp
+- *Extra_notebook* creating a `jupyter notebook` and a .pdf version of it
   
 **Outcome**: Learners see direct paths to apply Python in their own work.
