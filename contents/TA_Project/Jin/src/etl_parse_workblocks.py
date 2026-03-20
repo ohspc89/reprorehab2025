@@ -1,10 +1,34 @@
+"""
+Read the google spreadsheet and parse texts
+Please provide the url at the bottom of this script.
+"""
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from typing import Iterable
 
 import pandas as pd
+
+LOGPATH = Path('./log')
+DATAPATH = Path('../data')
+POSTPARSE_PATH = DATAPATH / 'interim/post_parse'
+
+
+def setup_logger() -> logging.Logger:
+    LOGPATH.mkdir(parents=True, exist_ok=True)
+
+    # Logger
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+        filename=str(LOGPATH / "etl_parse_workblocks.log"),
+        filemode="w"
+    )
+    return logging.getLogger(__name__)
+
+logger = setup_logger()
 
 # -------------------------
 # Configuration
@@ -302,6 +326,10 @@ def transform_workblock_attendance(source: str | Path) -> pd.DataFrame:
     parsed = df["ID_clean"].map(parse_session_text)
     parsed_df = pd.DataFrame(parsed.tolist(), index=df.index)
 
+    logger.info(parsed_df["parse_status"].value_counts().to_dict())
+    logger.info(parsed_df["review_reason"].value_counts().head(10).to_dict())
+    logger.info(f"Rows needing review: {parsed_df['needs_review'].sum()}")
+
     attendee_cols = [c for c in df.columns if c.startswith("Attendee_")]
     out = pd.concat([df[["ID_original", "ID_clean"] + attendee_cols], parsed_df], axis=1)
 
@@ -339,6 +367,5 @@ if __name__ == "__main__":
     # Example local file.
     SOURCE = "https://docs.google.com/spreadsheets/d/1reeteJsj4_DjMMyLbgeQQ0_HjLEkHDONV0tHII0TmwI/export?format=csv&gid=0"
     result = transform_workblock_attendance(SOURCE)
-    save_outputs(result, "../data/interim")
-    print(result.head(10).to_string())
-    print("\nRows needing review:", int(result["needs_review"].sum()))
+    save_outputs(result, POSTPARSE_PATH)
+    print(f"[INFO] Interim file saved at: {(POSTPARSE_PATH / 'cleaned_workblocks.csv').resolve()}")

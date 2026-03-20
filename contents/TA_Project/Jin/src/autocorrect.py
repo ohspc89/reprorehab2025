@@ -10,21 +10,25 @@ from pathlib import Path
 import pandas as pd
 from rapidfuzz import fuzz, process
 
+LOGPATH = Path('./log')
 DATAPATH = Path('../data')
 REFERENCE_PATH = DATAPATH / 'reference'
-INTERIM_PATH = DATAPATH / 'interim'
+POSTPARSE_PATH = DATAPATH / 'interim/post_parse'
 
-df = pd.read_csv(INTERIM_PATH / 'cleaned_workblocks.csv')
-metadata = pd.read_csv(REFERENCE_PATH / 'person_master.csv')
 
-# Logger
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    filename=str(INTERIM_PATH / "autocorrect.log"),
-    filemode="w"
-)
-logger = logging.getLogger(__name__)
+def setup_logger() -> logging.Logger:
+    LOGPATH.mkdir(parents=True, exist_ok=True)
+
+    # Logger
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+        filename=str(LOGPATH / "autocorrect.log"),
+        filemode="w"
+    )
+    return logging.getLogger(__name__)
+
+logger = setup_logger()
 
 
 def normalize_name(s: str) -> str:
@@ -49,94 +53,132 @@ def get_candidate_pool(host: str, names: list[str]) -> list[str]:
     if not host:
         return []
 
-    pool = [
-        n for n in names
-        if n
-        and n[0] == host[0]
-    ]
+    pool = [n for n in names if n and n[0] == host[0]]
     return pool if pool else names
 
 
-# Only rows needing timezone correction
-timezone_mask = df["review_reason"].str.contains("missing_timezone", na=False)
-
-# Prepare metadata
-metadata = metadata.copy()
-metadata["First_name_norm"] = metadata["First_name"].map(normalize_name)
+def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame]:
+    df = pd.read_csv(POSTPARSE_PATH / "cleaned_workblocks.csv")
+    metadata = pd.read_csv(REFERENCE_PATH / "person_master.csv")
+    return df, metadata
 
 
-# Normalized name -> timezone
-name_to_timezone = dict(zip(
-    metadata["First_name_norm"],
-    metadata["Timezone"]
-    )
-)
+def correct_timezones(
+    df: pd.DataFrame,
+    metadata: pd.DataFrame,
+    logger: logging.Logger,
+) -> pd.DataFrame:
+    df = df.copy()
+    metadata = metadata.copy()
 
-# Candidate names for rapidfuzz
-all_names_norm = metadata["First_name_norm"].tolist()
+    # Only rows needing timezone correction
+    timezone_mask = df["review_reason"].str.contains("missing_timezone", na=False)
 
-# Work on subset only
-target_idx = df.index[timezone_mask]
+    # Prepare metadata
+    metadata["First_name_norm"] = metadata["First_name"].map(normalize_name)
 
-for k in target_idx:
-    host = df.at[k, "host"]
-    host_norm = normalize_name(host)
-    pool = get_candidate_pool(host_norm, all_names_norm)
-
-    # best fuzzy match
-    match = process.extractOne(host_norm,
-                               pool,
-                               scorer=fuzz.WRatio)
-
-    if match is None:
-        logger.warning("[WARN] No name match found for host=%s",
-                       host)
-        continue
-
-    candidate_name, score, _ = match
-    if score < 75:
-        logger.warning("[WARN] Low-confidence match for host=%s candidate=%s score=%s",
-                       host,
-                       candidate_name,
-                       score)
-        continue
-
-    matched_timezone = name_to_timezone[candidate_name]
-
-    logger.info(
-        "name given=%s matched=%s score=%s",
-        host,
-        candidate_name,
-        score
+    # Normalized name -> timezone
+    name_to_timezone = dict(
+        zip(metadata["First_name_norm"], metadata["Timezone"])
     )
 
-    df.at[k, "tz_full"] = matched_timezone
+    # Candidate names for rapidfuzz
+    all_names_norm = metadata["First_name_norm"].tolist()
 
-    date_clean = df.at[k, "date_clean"]
-    time_clean = df.at[k, "time_clean"]
+    # Work on subset only
+    target_idx = df.index[timezone_mask]
 
-    # if date is missing, cannot construct datetime
-    if pd.isna(date_clean):
-        df.at[k, "datetime"] = pd.NaT
-        continue
+    for k in target_idx:
+        host = df.at[k, "host"]
+        host_norm = normalize_name(host)
+        pool = get_candidate_pool(host_norm, all_names_norm)
 
-    # if time missing, try recovering it from ID_clean
-    if pd.isna(time_clean):
-        recovered_time = extract_time_token(df.at[k, "ID_clean"])
-        if recovered_time is not None:
-            time_clean = recovered_time
-            df.at[k, "time_clean"] = recovered_time
-        else:
+        # best fuzzy match
+        match = process.extractOne(host_norm,
+                                   pool,
+                                   scorer=fuzz.WRatio)
+
+        if match is None:
+            logger.warning("[WARN] No name match found for host=%s",
+                           host)
+            continue
+
+        candidate_name, score, _ = match
+        # If the fuzzy score is lower than 75,
+        # review the correction.
+        if score < 75:
+            logger.warning("[WARN] Low-confidence match for host=%s candidate=%s score=%s",
+                           host,
+                           candidate_name,
+                           score)
+            continue
+
+        matched_timezone = name_to_timezone.get(candidate_name)
+        if pd.isna(matched_timezone):
+            logger.warning(
+                "No timezone found for candidate=%s (host=%s)",
+                candidate_name,
+                host,
+            )
+            continue
+
+        logger.info(
+            "name given=%s matched=%s score=%s",
+            host,
+            candidate_name,
+            score
+        )
+
+        date_clean = df.at[k, "date_clean"]
+        time_clean = df.at[k, "time_clean"]
+
+        # if date is missing, cannot construct datetime
+        if pd.isna(date_clean):
             df.at[k, "datetime"] = pd.NaT
             continue
 
-    naive = pd.to_datetime(f"{date_clean} {time_clean}", errors="coerce")
+        # if time missing, try recovering it from ID_clean
+        if pd.isna(time_clean):
+            recovered_time = extract_time_token(df.at[k, "ID_clean"])
+            if recovered_time is not None:
+                time_clean = recovered_time
+                df.at[k, "time_clean"] = recovered_time
+            else:
+                df.at[k, "datetime"] = pd.NaT
+                continue
 
-    if pd.isna(naive):
-        df.at[k, "datetime"] = pd.NaT
-    else:
-        df.at[k, "datetime"] = naive.tz_localize(matched_timezone)
+        naive = pd.to_datetime(f"{date_clean} {time_clean}", errors="coerce")
 
-df.to_csv(INTERIM_PATH / "timezone_corrected.csv", index=False)
-logger.info("Timezone corrected file: %s",
-            INTERIM_PATH / 'timezone_corrected.csv')
+        if pd.isna(naive):
+            df.at[k, "datetime"] = pd.NaT
+            continue
+
+        try:
+            df.at[k, "datetime"] = naive.tz_localize(matched_timezone)
+        except Exception as e:
+            logger.warning(
+                "Failed to localize datetime for host=%s timezone=%s error=%s",
+                host,
+                matched_timezone,
+                e,
+            )
+            df.at[k, "datetime"] = pd.NaT
+            continue
+
+    return df
+
+
+def save_outputs(df: pd.DataFrame, logger: logging.Logger) -> None:
+    out_path = POSTPARSE_PATH / "timezone_corrected.csv"
+    df.to_csv(out_path, index=False)
+    logger.info("Timezone corrected file: %s", out_path)
+
+
+def main() -> None:
+    df, metadata = load_inputs()
+    corrected = correct_timezones(df, metadata, logger)
+    save_outputs(corrected, logger)
+
+
+if __name__ == "__main__":
+    main()
