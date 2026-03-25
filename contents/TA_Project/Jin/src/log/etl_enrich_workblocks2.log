@@ -1,0 +1,5 @@
+2026-03-22 23:25:04,629 | INFO | Loaded attendance rows: 877
+2026-03-22 23:25:04,633 | INFO | Unique alias keys: 127
+2026-03-22 23:25:04,636 | WARNING | Rows dropped due to missing attendee_full_name: 33
+2026-03-22 23:25:04,694 | WARNING | Rows with missing attendee timezone after master join: 2
+2026-03-22 23:25:04,697 | INFO | Final rows: 844
