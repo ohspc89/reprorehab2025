@@ -211,7 +211,7 @@ def build_attendance_enriched(df_long: pd.DataFrame) -> pd.DataFrame:
     df = df[existing].copy()
 
     df = df.sort_values(
-        ["workblock_datetime_utc", "attendee_full_name"],
+        ["session_id", "workblock_datetime_utc", "attendee_full_name"],
         na_position="last",
     ).reset_index(drop=True)
 
