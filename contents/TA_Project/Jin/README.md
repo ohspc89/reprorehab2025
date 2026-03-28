@@ -8,7 +8,6 @@ A reproducible ETL pipeline for transforming messy, semi-structured attendance d
 
 This project processes raw attendance records (from spreadsheets or CSV exports) into a structured dataset with:
 
-* Clean session metadata (date, time, timezone)
 * Normalized participant names
 * Host-attendance consistency
 * Person-level enrichment (timezone, role, pod)
@@ -28,7 +27,7 @@ The pipeline is designed to handle **noisy human-entered data**, including:
 The pipeline follows a staged architecture:
 
 ```
-Parse → Auto-correct → Enrich (pt1) → Human Review → Enrich (pt2)
+Parse → Auto-correct → Human Review -> Enrich (pt1) → Human Review → Enrich (pt2)
 ```
 
 ### 1. `etl_parse_workblocks.py`
@@ -39,6 +38,7 @@ Parse → Auto-correct → Enrich (pt1) → Human Review → Enrich (pt2)
   * host
   * date / time
   * timezone
+
 * Outputs:
 
   * `cleaned_workblocks.csv`
@@ -50,27 +50,36 @@ Parse → Auto-correct → Enrich (pt1) → Human Review → Enrich (pt2)
 
 * Fixes missing or inconsistent timezones
 * Uses first-name heuristics for fallback mapping
+
 * Outputs:
 
   * `timezone_corrected.csv`
 
 ---
 
-### 3. `etl_enrich_workblocks_pt1.py`
+### 3. Human-in-the-loop Step
+
+* Review and correct `timezone_corrected.csv`
+
+* This ensures accurate identity resolution
+
+---
+
+### 4. `etl_enrich_workblocks_pt1.py`
 
 * Assigns unique `session_id`
 * Converts wide attendance → long format
 * Ensures host is included in attendance
 * Generates `person_alias.csv` for human validation
 
-Outputs:
+* Outputs:
 
 * `host_ensured_long.csv`
 * `person_alias.csv` (requires manual review)
 
 ---
 
-### 4. Human-in-the-loop Step
+### 5. Human-in-the-loop Step
 
 * Review and correct:
 
@@ -79,7 +88,7 @@ Outputs:
 
 ---
 
-### 5. `etl_enrich_workblocks_pt2.py`
+### 6. `etl_enrich_workblocks_pt2.py`
 
 * Maps names → canonical identities
 * Joins with `person_master.csv`
@@ -111,10 +120,12 @@ data/
   final_output/
 
 src/
-  etl_parse_workblocks.py
-  autocorrect.py
-  etl_enrich_workblocks_pt1.py
-  etl_enrich_workblocks_pt2.py
+  ETL/
+    etl_parse_workblocks.py
+    autocorrect.py
+    etl_enrich_workblocks_pt1.py
+    etl_enrich_workblocks_pt2.py
+  log/
 ```
 
 ---
@@ -180,6 +191,7 @@ Run each stage sequentially:
 ```bash
 python etl_parse_workblocks.py
 python autocorrect.py
+# manually review timezone_corrected.csv
 python etl_enrich_workblocks_pt1.py
 # manually review person_alias.csv
 python etl_enrich_workblocks_pt2.py
