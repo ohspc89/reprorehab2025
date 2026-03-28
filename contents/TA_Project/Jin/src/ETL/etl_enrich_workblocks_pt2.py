@@ -185,6 +185,7 @@ def build_attendance_enriched(df_long: pd.DataFrame) -> pd.DataFrame:
     df = df_long.copy()
 
     ordered_cols = [
+        "session_id",
         "workblock_datetime_utc",
         "date_clean",
         "host",
@@ -261,6 +262,24 @@ def main():
     # Map master 
     master = build_person_master(master)
     attendance = apply_master(attendance, master)
+
+    # Drop the second row if it the session is actually host-only
+    per_session_count = attendance.groupby("session_id")["attendance_source"].count()
+    sessions_of_two = per_session_count[per_session_count == 2]
+    two_indices = list(sessions_of_two.index)
+    to_remove = []
+    for sess in two_indices:
+        sub = attendance.loc[attendance["session_id"] == sess, :]
+        if sub["attendee_full_name"].nunique() == 1:
+            to_remove.append(sub.index[1])
+
+    logger.warning(f"Host-only sessions misspecified: {attendance.iloc[to_remove, 0]}")
+
+    for idx in to_remove:
+        attendance.at[idx-1, "attendee_slot"] = "host_only"
+        attendance.at[idx-1, "attendee_source"] = "host_only_session"
+
+    attendance = attendance.drop(index=to_remove)
 
     # # Time related measures added
     attendance = add_local_time_features(attendance)

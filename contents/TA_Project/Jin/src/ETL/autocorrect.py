@@ -180,6 +180,7 @@ def main() -> None:
     df, metadata = load_inputs()
     corrected = correct_timezones(df, metadata, logger)
     save_outputs(corrected, logger)
+    print(f"[INFO] Timezone corrected file saved at: {(POSTPARSE_PATH / "timezone_corrected.csv").resolve()}")
 
 
 if __name__ == "__main__":
