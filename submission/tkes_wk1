@@ -1,0 +1,111 @@
+##author: TrishaKesar
+"""
+ 
+#Practice Tasks 
+"""
+
+#!pip install matplotlib
+import matplotlib.pyplot as plt
+
+#assign variable xs as the x axis of plot, integers with range 1-10
+# what is the variable type that xs is called? 1d array? 
+#difference from xs = range(0, 10, 1) - in above script how did we specify step size? 
+
+#assign variable xs a range of numbers from 0 to 9
+#  
+
+xs = range (10) 
+
+#assign variable data as 1,2,3,4,5,6,7,8,9,10   
+data = [1,2,3,4,5,6,7,8,9,10]
+
+#plot xs versus data
+plt.plot (xs, data)
+#assign variable ys as the y axis values, square of x, for every value of x in the first xs array? 
+#ys = [x**2 for x in xs] is an example of list comprehension. This is a loop, 
+# which is equivalent to this:
+#ys = list()
+#for x in xs: 
+#ys.append(x**2)
+
+ys = [x**2 for x in xs]
+
+#use the plt function to plot xs versus ys. Clarify template syntax for a simple plot and other more fancy plots
+plt.plot (xs, ys)
+
+import numpy as np 
+xs_np = np.arange (0,0.9,5)
+print (xs_np)
+plt.plot (xs, xs_np)
+
+# Task 1. Read 'week1.json' and save its content to a variable: 'data' 
+
+##read a json file called week1.json and save its content to a variable called data
+import json
+json.load(open('week1.json'))
+
+with open("week1.json", "r") as file:
+    data = json.load(file)
+
+# %% Task 2. Report the first-level keys of 'data'. How many subjects?
+    
+print(data.keys())
+print(len(data))
+#print(data.items())
+
+
+## Task 3 # Report the second-level keys of 'data'.
+# How many days each participant was tracked?
+# hint: you can use the first key at the first-level
+print(data['sub1'].keys())
+
+# Answer -the second level key of data is days. 
+# dict_keys(['day1', 'day2', 'day3'])
+# Answer - the participant was tracked for 3 days 
+
+
+
+
+# %% Task 4. What were the measures of each day?
+# hint: all three days were the same regarding measures
+
+print(data['sub1']['day1'].keys())
+
+##Answeer - The measures for each day were: 
+## hour_slept', 'coffee_intake', 'mean_cortisol_level'
+#  I did that by using the item function to view all the data 
+# I can also use data sub1 day 1 - keys (as above)
+
+
+## %% Task 5. Make a new dictionary, 'sleep_hours'.
+# Its structure will be like:
+#    {'day1': [hour_slept of all participants on day 1],
+#     'day2': [hour_slept of all participants on day 2],
+#     'day3': [hour_slept of all participants on day 3]
+#    }
+
+
+## Answer- this is where it stops making any sense to me 
+## I dont understand. Instead of quitting, I am just inclined to switch to opening
+# my own file. Is that ok? I will try opening mu own data file
+# do similar operations and report back! : ( 
+
+# make new dictionary called sleep hours 
+day1_value = [data[x]['day1']['hour_slept'] for x in data.keys()]
+day2_value = [data[x]['day2']['hour_slept'] for x in data.keys()]
+day3_value = [data[x]['day3']['hour_slept'] for x in data.keys()]
+
+
+sleep_hours = {'day1':day1_value, 'day2':day2_value, 'day3':day3_value}
+
+
+# Task 6
+import numpy as np
+means = [np.mean(val) for _, val in sleep_hours.items()]
+stds = [np.std(val) for _, val in sleep_hours.items()]
+
+# Task 7
+import matplotlib.pyplot as plt
+plt.plot(range(1, 4), means)
+plt.xlabel('Day')
+plt.ylabel('Average sleep hours')
