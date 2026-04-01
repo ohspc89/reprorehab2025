@@ -273,7 +273,7 @@ def main():
         if sub["attendee_full_name"].nunique() == 1:
             to_remove.append(sub.index[1])
 
-    logger.warning(f"Host-only sessions misspecified: {attendance.iloc[to_remove, 0]}")
+    logger.warning(f"Host-only sessions misspecified:\n{attendance.iloc[to_remove, 0]}")
 
     for idx in to_remove:
         attendance.at[idx-1, "attendee_slot"] = "host_only"
