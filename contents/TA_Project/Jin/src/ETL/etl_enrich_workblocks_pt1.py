@@ -303,7 +303,6 @@ def match_name_to_master(name_raw: str, pm: pd.DataFrame):
     """
     name_raw: name (match_key)
     pm: master CSV file (person_master.csv)
-        the first two columns should be 'match_key' & 'match_value'
     """
 
     name_norm = _normalize_name(name_raw)
